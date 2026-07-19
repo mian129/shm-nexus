@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="orangeGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C42;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="darkGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3D3D3D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a1a;stop-opacity:1" />
+    </linearGradient>
+    <clipPath id="circleClip2">
+      <circle cx="200" cy="200" r="200"/>
+    </clipPath>
+  </defs>
+  <circle cx="200" cy="200" r="200" fill="url(#darkGrad2)"/>
+  <g clip-path="url(#circleClip2)">
+    <circle cx="200" cy="200" r="190" fill="none" stroke="url(#orangeGrad2)" stroke-width="1.5" opacity="0.3"/>
+    <circle cx="200" cy="200" r="180" fill="none" stroke="url(#orangeGrad2)" stroke-width="0.5" opacity="0.2"/>
+    <circle cx="40" cy="40" r="4" fill="#FF6B35" opacity="0.5"/>
+    <circle cx="360" cy="40" r="4" fill="#FF6B35" opacity="0.5"/>
+    <circle cx="40" cy="360" r="4" fill="#FF6B35" opacity="0.5"/>
+    <circle cx="360" cy="360" r="4" fill="#FF6B35" opacity="0.5"/>
+    <text x="200" y="185" font-family="'Arial Black', 'Impact', sans-serif" font-size="105" font-weight="900" fill="none" stroke="#FFFFFF" stroke-width="2" text-anchor="middle" letter-spacing="-2" opacity="0.3">SHM</text>
+    <text x="200" y="185" font-family="'Arial Black', 'Impact', sans-serif" font-size="105" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="-2">SHM</text>
+    <rect x="120" y="200" width="160" height="4" fill="url(#orangeGrad2)" rx="2"/>
+    <circle cx="120" cy="202" r="5" fill="#FF6B35"/>
+    <circle cx="280" cy="202" r="5" fill="#FF6B35"/>
+    <text x="202" y="282" font-family="'Arial Black', 'Impact', sans-serif" font-size="68" font-weight="900" fill="#1a1a1a" text-anchor="middle" letter-spacing="8" opacity="0.5">NEXUS</text>
+    <text x="200" y="280" font-family="'Arial Black', 'Impact', sans-serif" font-size="68" font-weight="900" fill="url(#orangeGrad2)" text-anchor="middle" letter-spacing="8">NEXUS</text>
+    <path d="M150,310 L200,325 L250,310" fill="none" stroke="#FF6B35" stroke-width="2"/>
+    <circle cx="200" cy="325" r="4" fill="#FF6B35"/>
+  </g>
+  <circle cx="200" cy="200" r="198" fill="none" stroke="#FF6B35" stroke-width="2" opacity="0.6"/>
+</svg>
