@@ -19,6 +19,7 @@ export default function Footer() {
             <div>
               <p className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>SHM <span className="text-orange">Nexus</span></p>
               <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>Designed & Developed by SHM Nexus</p>
+              <Link href="/admin" className="text-xs mt-1 inline-block" style={{ color: "var(--text-muted)", opacity: 0.3 }}>admin</Link>
             </div>
           </div>
 
