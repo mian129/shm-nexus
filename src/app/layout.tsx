@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import LavaBlobs from "@/components/animations/LavaBlobs";
-import CustomCursor from "@/components/animations/CustomCursor";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -44,8 +42,6 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark" className={jakarta.variable}>
       <body className="antialiased" suppressHydrationWarning>
-        <CustomCursor />
-        <LavaBlobs />
         <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
