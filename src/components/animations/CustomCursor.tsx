@@ -12,36 +12,40 @@ export default function CustomCursor() {
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     if (isMobile) return;
 
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
     };
 
-    const handleMouseEnter = () => cursor.classList.add("hovering");
-    const handleMouseLeave = () => cursor.classList.remove("hovering");
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("a, button, [role='button'], .cursor-pointer")) {
+        cursor.classList.add("hovering");
+      } else {
+        cursor.classList.remove("hovering");
+      }
+    };
 
-    document.addEventListener("mousemove", handleMouseMove);
+    let raf: number;
+    const animate = () => {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      cursor.style.left = `${cursorX}px`;
+      cursor.style.top = `${cursorY}px`;
+      raf = requestAnimationFrame(animate);
+    };
 
-    const tracked = new WeakSet<EventTarget>();
-
-    function attachToElement(el: Element) {
-      if (tracked.has(el)) return;
-      tracked.add(el);
-      el.addEventListener("mouseenter", handleMouseEnter);
-      el.addEventListener("mouseleave", handleMouseLeave);
-    }
-
-    document.querySelectorAll("a, button, [role='button']").forEach(attachToElement);
-
-    const observer = new MutationObserver(() => {
-      document.querySelectorAll("a, button, [role='button']").forEach(attachToElement);
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseover", handleMouseOver, { passive: true });
+    raf = requestAnimationFrame(animate);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
-      observer.disconnect();
+      document.removeEventListener("mouseover", handleMouseOver);
+      cancelAnimationFrame(raf);
     };
   }, []);
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Target, Eye, Heart } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
@@ -40,20 +39,17 @@ export default function AboutPage() {
           <div className="absolute top-20 left-1/4 w-96 h-96 bg-orange/5 rounded-full blur-3xl" />
         </div>
         <div className="container-custom relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <span className="text-orange font-medium uppercase tracking-wider text-sm">About Us</span>
-            <h1 className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ color: "var(--text-primary)" }}>
-              We Are <span className="text-orange">SHM Nexus</span>
-            </h1>
-            <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
-              A team of passionate digital professionals dedicated to helping businesses grow online.
-            </p>
-          </motion.div>
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto">
+              <span className="text-orange font-medium uppercase tracking-wider text-sm">About Us</span>
+              <h1 className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ color: "var(--text-primary)" }}>
+                We Are <span className="text-orange">SHM Nexus</span>
+              </h1>
+              <p className="text-lg" style={{ color: "var(--text-secondary)" }}>
+                A team of passionate digital professionals dedicated to helping businesses grow online.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -120,14 +116,13 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
             {team.map((member: any, index: number) => (
               <ScrollReveal key={member._id || member.name} delay={index * 0.15}>
-                <motion.div
-                  whileHover={{ y: -8 }}
-                  className="rounded-3xl overflow-hidden transition-all duration-300 group h-full flex flex-col"
+                <div
+                  className="rounded-3xl overflow-hidden transition-all duration-300 group h-full flex flex-col hover:-translate-y-2"
                   style={{ background: "var(--bg-card)", boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}
                 >
                   <div className="relative overflow-hidden" style={{ paddingBottom: "110%" }}>
                     {member.photo ? (
-                      <img src={member.photo} alt={member.name} className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                      <img src={member.photo} alt={member.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gradient-to-br from-orange to-orange-dark">
                         <span className="text-5xl font-bold text-white/30">
@@ -141,7 +136,7 @@ export default function AboutPage() {
                     <p className="text-orange text-xs font-semibold mb-3 uppercase tracking-wider">{member.designation}</p>
                     <p className="text-sm leading-relaxed flex-1" style={{ color: "var(--text-secondary)" }}>{member.bio}</p>
                   </div>
-                </motion.div>
+                </div>
               </ScrollReveal>
             ))}
           </div>

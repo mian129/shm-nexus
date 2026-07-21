@@ -36,7 +36,7 @@ export default function TeamSection() {
               <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
                 <div className="w-28 h-28 rounded-full overflow-hidden" style={{ background: "var(--bg-hover)", border: "3px solid var(--border-color)", flexShrink: 0 }}>
                   {member.photo ? (
-                    <img src={member.photo} alt={member.name} className="w-full h-full object-cover" style={{ borderRadius: "50%" }} />
+                    <img src={member.photo} alt={member.name} loading="lazy" className="w-full h-full object-cover" style={{ borderRadius: "50%" }} />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-orange">
                       {member.name?.charAt(0) || "?"}

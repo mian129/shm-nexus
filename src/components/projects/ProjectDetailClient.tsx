@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
-import { motion } from "framer-motion";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 export default function ProjectDetailClient() {
@@ -21,7 +20,6 @@ export default function ProjectDetailClient() {
       .then((data) => {
         setProject(data);
         setLoading(false);
-        // Fetch related projects
         fetch(`/api/projects?category=${encodeURIComponent(data.category)}`)
           .then((r) => r.json())
           .then((all) => {
@@ -99,17 +97,14 @@ export default function ProjectDetailClient() {
       <section className="pb-16">
         <div className="container-custom">
           <ScrollReveal>
-            <motion.div
-              whileHover={{ scale: 1.01 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="rounded-2xl overflow-hidden"
-            >
+            <div className="rounded-2xl overflow-hidden hover:scale-[1.01] transition-transform duration-600">
               <img
                 src={project.images?.[0] || "/placeholder.jpg"}
                 alt={project.title}
+                loading="lazy"
                 className="w-full aspect-[16/9] object-cover"
               />
-            </motion.div>
+            </div>
           </ScrollReveal>
         </div>
       </section>
@@ -134,30 +129,24 @@ export default function ProjectDetailClient() {
 
               <div className="space-y-4">
                 <ScrollReveal delay={0.1}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="rounded-2xl overflow-hidden"
-                  >
+                  <div className="rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-600">
                     <img
                       src={project.images?.[1] || "/placeholder.jpg"}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full aspect-[4/3] object-cover"
                     />
-                  </motion.div>
+                  </div>
                 </ScrollReveal>
                 <ScrollReveal delay={0.2}>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                    className="rounded-2xl overflow-hidden"
-                  >
+                  <div className="rounded-2xl overflow-hidden hover:scale-[1.02] transition-transform duration-600">
                     <img
                       src={project.images?.[2] || "/placeholder.jpg"}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full aspect-[4/3] object-cover"
                     />
-                  </motion.div>
+                  </div>
                 </ScrollReveal>
               </div>
             </div>
@@ -174,17 +163,14 @@ export default function ProjectDetailClient() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {related.map((rel: any, i: number) => (
                 <ScrollReveal key={rel.slug} delay={i * 0.1}>
-                  <motion.div
-                    whileHover={{ y: -8 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    className="group cursor-pointer"
-                  >
+                  <div className="group cursor-pointer hover:-translate-y-2 transition-transform duration-400">
                     <Link href={`/projects/${rel.slug}`}>
                       <div className="rounded-2xl overflow-hidden mb-4">
                         <div className="aspect-[16/9] overflow-hidden">
                           <img
                             src={rel.images?.[0] || "/placeholder.jpg"}
                             alt={rel.title}
+                            loading="lazy"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                           />
                         </div>
@@ -194,7 +180,7 @@ export default function ProjectDetailClient() {
                         {rel.title}
                       </h3>
                     </Link>
-                  </motion.div>
+                  </div>
                 </ScrollReveal>
               ))}
             </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -29,16 +28,13 @@ export default function ProjectsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
               <ScrollReveal key={project._id || project.slug} delay={index * 0.05}>
-                <motion.div
-                  whileHover={{ y: -8 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="group cursor-pointer"
-                >
+                <div className="group cursor-pointer hover:-translate-y-2 transition-transform duration-400">
                   <Link href={`/projects/${project.slug}`}>
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-4">
                       <img
                         src={project.images?.[0] || "/placeholder.jpg"}
                         alt={project.title}
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center">
@@ -52,7 +48,7 @@ export default function ProjectsPage() {
                       {project.title}
                     </h3>
                   </Link>
-                </motion.div>
+                </div>
               </ScrollReveal>
             ))}
           </div>

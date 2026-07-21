@@ -46,6 +46,7 @@ export default function WorkSection() {
                     <img
                       src={project.images?.[0] || "/placeholder.jpg"}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   </div>
@@ -53,6 +54,7 @@ export default function WorkSection() {
                     <img
                       src={project.images?.[1] || "/placeholder.jpg"}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   </div>
@@ -60,6 +62,7 @@ export default function WorkSection() {
                     <img
                       src={project.images?.[2] || "/placeholder.jpg"}
                       alt={project.title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     />
                   </div>

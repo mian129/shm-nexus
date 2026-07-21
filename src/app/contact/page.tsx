@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { motion } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -80,11 +79,7 @@ function ContactForm() {
 
             {submitted ? (
               <ScrollReveal>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-center py-20"
-                >
+                <div className="text-center py-20 hero-fade-up">
                   <CheckCircle className="text-orange mx-auto mb-6" size={48} />
                   <h2 className="text-3xl font-bold mb-4" style={{ color: "var(--text-primary)" }}>Thanks!</h2>
                   <p style={{ color: "var(--text-secondary)" }}>Your message has been sent. We&apos;ll get back to you soon.</p>
@@ -94,7 +89,7 @@ function ContactForm() {
                   >
                     Send Another Message
                   </button>
-                </motion.div>
+                </div>
               </ScrollReveal>
             ) : (
               <ScrollReveal>

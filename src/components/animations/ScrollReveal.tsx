@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useInView, useAnimation } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -18,48 +17,51 @@ export default function ScrollReveal({
   duration = 0.6,
   className = "",
 }: ScrollRevealProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const controls = useAnimation();
-
-  const directionMap = {
-    up: { y: 60, x: 0 },
-    down: { y: -60, x: 0 },
-    left: { y: 0, x: 60 },
-    right: { y: 0, x: -60 },
-  };
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (isInView) {
-      controls.start("visible");
-    }
-  }, [isInView, controls]);
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1, rootMargin: "-80px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const directionStyles: Record<string, string> = {
+    up: "translate-y-[60px]",
+    down: "translate-y-[-60px]",
+    left: "translate-x-[60px]",
+    right: "translate-x-[-60px]",
+  };
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: {
-          opacity: 0,
-          y: directionMap[direction].y,
-          x: directionMap[direction].x,
-        },
-        visible: {
-          opacity: 1,
-          y: 0,
-          x: 0,
-          transition: {
-            duration,
-            delay,
-            ease: "easeOut",
-          },
-        },
+      className={`transition-all ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translate(0)" : undefined,
+        transitionDuration: `${duration}s`,
+        transitionDelay: `${delay}s`,
+        transitionTimingFunction: "ease-out",
       }}
-      className={className}
     >
-      {children}
-    </motion.div>
+      {isVisible ? children : (
+        <div className={directionStyles[direction]} style={{ opacity: 0 }}>
+          {children}
+        </div>
+      )}
+    </div>
   );
 }
