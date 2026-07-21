@@ -141,7 +141,7 @@ body {
   width: 100%; height: 100%;
   overflow: hidden;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 .lava-filter { position: absolute; width: 0; height: 0; }
 .lava-wrapper {
