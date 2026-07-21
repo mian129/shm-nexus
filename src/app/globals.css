@@ -127,6 +127,7 @@ body {
   top: 0; left: 0; right: 0; bottom: 0;
   filter: blur(2px);
   pointer-events: none;
+  z-index: -1;
 }
 .lava-filter { width: 0; height: 0; }
 .lava-wrapper {
@@ -136,21 +137,23 @@ body {
   filter: url(#lava-meld);
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  opacity: 0.9;
+  opacity: 0.6;
   will-change: transform;
   transform: translate(0);
   pointer-events: none;
+  z-index: -1;
 }
 .lava {
   border-radius: 50%;
   z-index: 0;
   will-change: transform, filter;
-  background: radial-gradient(circle at 42% 42%, #fee92c, #fee92c 40%, #fcd240 70%);
-  box-shadow: 0 0 20px #fcd240e0, inset 0 0 10px rgba(70, 65, 131, 0.1);
+  background: radial-gradient(circle at 42% 42%, #FF8C33, #FF6B00 40%, #E55A00 70%);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.5), inset 0 0 10px rgba(229, 90, 0, 0.1);
 }
 html[data-theme="dark"] .lava {
-  background: radial-gradient(circle at 42% 42%, rgba(148, 140, 70, 0.8), #fee92c 40%, #fcd240 70%);
-  box-shadow: 0 0 20px #fcd240e0, inset 0 0 10px rgba(70, 65, 131, 0.1);
+  background: radial-gradient(circle at 42% 42%, #FF6B00, #FF8C33 40%, #FFB800 70%);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.35), inset 0 0 10px rgba(229, 90, 0, 0.1);
+  opacity: 0.5;
 }
 .lava.blob {
   width: 260px;
@@ -175,11 +178,16 @@ html[data-theme="dark"] .lava {
   z-index: 0;
   width: 182px;
   height: 182px;
+  background: radial-gradient(circle at 42% 42%, #FF8C33, #FF6B00 40%, #E55A00 70%);
 }
 .lava.droplet {
   position: absolute;
   opacity: 0;
   z-index: 0;
+  background: radial-gradient(circle at 42% 42%, #FF8C33, #FF6B00 40%, #E55A00 70%);
+}
+html[data-theme="dark"] .lava.droplet {
+  background: radial-gradient(circle at 42% 42%, #FF6B00, #FF8C33 40%, #FFB800 70%);
 }
 .lava.droplet.group-1 {
   filter: opacity(100%) saturate(1);
@@ -199,7 +207,7 @@ html[data-theme="dark"] .lava {
 .marquee-divider { display: inline-block; width: 10px; height: 10px; background: #FF6B00; border-radius: 50%; flex-shrink: 0; margin: 0 1rem; align-self: center; opacity: 0.7; }
 
 /* ===== LAYOUT ===== */
-.app-wrapper { position: relative; z-index: 3; min-height: 100vh; }
+.app-wrapper { position: relative; z-index: 2; min-height: 100vh; }
 .section-padding { padding: 140px 0 120px; }
 @media (max-width: 768px) { .section-padding { padding: 100px 0 80px; } }
 .container-custom { max-width: 1400px; margin: 0 auto; padding: 0 40px; }

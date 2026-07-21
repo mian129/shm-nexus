@@ -60,7 +60,6 @@ export default function LavaBlobs() {
               ["--droplet-flow-y" as string]: `${d.fy}px`,
               ["--droplet-angle" as string]: `${d.angle}deg`,
               animation: `${d.dur}s cubic-bezier(0.25, 1, 1, 1) 0.8s 1 normal forwards running explode, ${d.breathe}s ease-in-out ${d.delay}s infinite normal none running explode-breathe`,
-              opacity: 1,
             }}
           />
         ))}
