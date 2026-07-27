@@ -10,6 +10,6 @@
     "max_subrequests": 100
   },
   "vars": {
-    "MONGODB_URI": "mongodb+srv://shmnexus_db_user:9PvvByR2vorIQYYv@cluster0.2tavk2d.mongodb.net/?appName=Cluster0"
+    "MONGODB_URI": "mongodb://shmnexus_db_user:9PvvByR2vorIQYYv@ac-tqzwium-shard-00-00.2tavk2d.mongodb.net:27017,ac-tqzwium-shard-00-01.2tavk2d.mongodb.net:27017,ac-tqzwium-shard-00-02.2tavk2d.mongodb.net:27017/?replicaSet=atlas-x04sqn-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0"
   }
 }
