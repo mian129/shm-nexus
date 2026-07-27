@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/lib/mongodb";
-import Project from "@/models/Project";
-import Service from "@/models/Service";
+import { deleteMany, createOne } from "@/lib/mongodb-api";
 
 const allProjects = [
   {
@@ -219,23 +217,18 @@ export async function POST() {
 
 async function seed() {
   try {
-    await connectDB();
+    await deleteMany("projects", {});
+    await deleteMany("services", {});
 
-    // Clear existing projects and services for fresh seed
-    await Project.deleteMany({});
-    await Service.deleteMany({});
-
-    // Seed projects
     let projectsCreated = 0;
     for (const p of allProjects) {
-      await Project.create(p);
+      await createOne("projects", p);
       projectsCreated++;
     }
 
-    // Seed services
     let servicesCreated = 0;
     for (const s of allServices) {
-      await Service.create(s);
+      await createOne("services", s);
       servicesCreated++;
     }
 

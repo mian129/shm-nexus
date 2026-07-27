@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongodb";
-import Settings from "@/models/Settings";
+import { findOne, createOne, updateById } from "@/lib/mongodb-api";
 
 export async function GET() {
   try {
-    await connectDB();
-    let settings = await Settings.findOne();
+    let settings = await findOne("settings", {});
     if (!settings) {
-      settings = await Settings.create({});
+      settings = await createOne("settings", {});
     }
     return NextResponse.json(settings);
   } catch (error) {
@@ -17,13 +15,13 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   try {
-    await connectDB();
     const body = await request.json();
-    let settings = await Settings.findOne();
+    let settings = await findOne("settings", {});
     if (!settings) {
-      settings = await Settings.create(body);
+      settings = await createOne("settings", body);
     } else {
-      settings = await Settings.findByIdAndUpdate(settings._id, body, { new: true });
+      await updateById("settings", settings.id as number, body);
+      settings = { ...settings, ...body };
     }
     return NextResponse.json(settings);
   } catch (error) {

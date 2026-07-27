@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/lib/mongodb";
-import Team from "@/models/Team";
+import { deleteMany, createOne, findOne } from "@/lib/mongodb-api";
 import { teamPhotos } from "@/lib/team-photos";
 
 const teamMembers = [
@@ -40,15 +39,14 @@ const teamMembers = [
 
 export async function POST() {
   try {
-    await connectDB();
-
-    // Clear existing team and insert fresh
-    await Team.deleteMany({});
-    const created = await Team.insertMany(teamMembers);
+    await deleteMany("teams", {});
+    for (const member of teamMembers) {
+      await createOne("teams", member);
+    }
 
     return NextResponse.json({
       message: "Team seeded successfully",
-      count: created.length,
+      count: teamMembers.length,
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -57,13 +55,11 @@ export async function POST() {
 
 export async function GET() {
   try {
-    await connectDB();
-
     let seeded = 0;
     for (const member of teamMembers) {
-      const exists = await Team.findOne({ name: member.name });
+      const exists = await findOne("teams", { name: member.name });
       if (!exists) {
-        await Team.create(member);
+        await createOne("teams", member);
         seeded++;
       }
     }
