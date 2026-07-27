@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "shm-nexus",
+  "compatibility_date": "2026-07-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "MONGODB_URI": "mongodb+srv://shmnexus_db_user:9PvvByR2vorIQYYv@cluster0.2tavk2d.mongodb.net/?appName=Cluster0"
+  }
+}
