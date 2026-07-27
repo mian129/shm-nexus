@@ -13,6 +13,9 @@
       "custom_domain": true
     }
   ],
+  "limits": {
+    "max_subrequests": 128
+  },
   "vars": {
     "MONGODB_URI": "mongodb://shmnexus_db_user:9PvvByR2vorIQYYv@ac-tqzwium-shard-00-00.2tavk2d.mongodb.net:27017/?authSource=admin&retryWrites=true&w=majority&appName=Cluster0&directConnection=true"
   }
