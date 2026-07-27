@@ -1,97 +1,6 @@
 import getClient from "./turso";
 import type { InValue } from "@libsql/client";
 
-let schemaReady = false;
-
-async function ensureSchemaOnce() {
-  if (schemaReady) return;
-  await ensureSchema();
-  schemaReady = true;
-}
-
-export async function ensureSchema() {
-  await getClient().executeMultiple(`
-    CREATE TABLE IF NOT EXISTS teams (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      designation TEXT NOT NULL DEFAULT '',
-      bio TEXT NOT NULL DEFAULT '',
-      photo TEXT NOT NULL DEFAULT '',
-      "order" INTEGER NOT NULL DEFAULT 0,
-      socialLinks TEXT NOT NULL DEFAULT '{}',
-      createdAt TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE TABLE IF NOT EXISTS projects (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      slug TEXT NOT NULL UNIQUE,
-      title TEXT NOT NULL,
-      category TEXT NOT NULL DEFAULT '',
-      client TEXT NOT NULL DEFAULT '',
-      year TEXT NOT NULL DEFAULT '',
-      description TEXT NOT NULL DEFAULT '',
-      details TEXT NOT NULL DEFAULT '[]',
-      images TEXT NOT NULL DEFAULT '[]',
-      featured INTEGER NOT NULL DEFAULT 0,
-      createdAt TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE TABLE IF NOT EXISTS services (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      description TEXT NOT NULL DEFAULT '',
-      icon TEXT NOT NULL DEFAULT '',
-      features TEXT NOT NULL DEFAULT '[]',
-      "order" INTEGER NOT NULL DEFAULT 0,
-      createdAt TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE TABLE IF NOT EXISTS blogs (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      content TEXT NOT NULL DEFAULT '',
-      excerpt TEXT NOT NULL DEFAULT '',
-      featuredImage TEXT NOT NULL DEFAULT '',
-      author TEXT NOT NULL DEFAULT '',
-      tags TEXT NOT NULL DEFAULT '[]',
-      category TEXT NOT NULL DEFAULT '',
-      views INTEGER NOT NULL DEFAULT 0,
-      createdAt TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE TABLE IF NOT EXISTS inquiries (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      email TEXT NOT NULL DEFAULT '',
-      phone TEXT NOT NULL DEFAULT '',
-      service TEXT NOT NULL DEFAULT '',
-      message TEXT NOT NULL DEFAULT '',
-      "read" INTEGER NOT NULL DEFAULT 0,
-      createdAt TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
-    CREATE TABLE IF NOT EXISTS settings (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      siteLogo TEXT NOT NULL DEFAULT '',
-      siteTitle TEXT NOT NULL DEFAULT '',
-      tagline TEXT NOT NULL DEFAULT '',
-      footerText TEXT NOT NULL DEFAULT '',
-      socialLinks TEXT NOT NULL DEFAULT '{}',
-      contactInfo TEXT NOT NULL DEFAULT '{}'
-    );
-
-    CREATE TABLE IF NOT EXISTS testimonials (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      clientName TEXT NOT NULL,
-      company TEXT NOT NULL DEFAULT '',
-      rating INTEGER NOT NULL DEFAULT 5,
-      review TEXT NOT NULL DEFAULT '',
-      photo TEXT NOT NULL DEFAULT '',
-      createdAt TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-  `);
-}
-
 function toInValue(v: unknown): InValue {
   if (v === null || v === undefined) return null;
   if (typeof v === "boolean") return v ? 1 : 0;
@@ -123,7 +32,6 @@ export async function findAll(
   sort?: Record<string, 1 | -1>,
   limit?: number
 ) {
-  await ensureSchemaOnce();
   let sql = `SELECT * FROM ${table}`;
   const args: InValue[] = [];
   const conditions: string[] = [];
@@ -163,7 +71,6 @@ export async function findOne(table: string, filter?: Record<string, unknown>) {
 }
 
 export async function findById(table: string, id: string | number) {
-  await ensureSchemaOnce();
   const numId = typeof id === "string" ? parseInt(id, 10) : id;
   const result = await getClient().execute({
     sql: `SELECT * FROM ${table} WHERE id = ?`,
@@ -173,7 +80,6 @@ export async function findById(table: string, id: string | number) {
 }
 
 export async function createOne(table: string, data: Record<string, unknown>) {
-  await ensureSchemaOnce();
   const entries = Object.entries(data).filter(([k]) => k !== "id");
   const columns = entries.map(([k]) => k === "order" ? '"order"' : `"${k}"`).join(", ");
   const placeholders = entries.map(() => "?").join(", ");
@@ -188,7 +94,6 @@ export async function createOne(table: string, data: Record<string, unknown>) {
 }
 
 export async function updateById(table: string, id: string | number, data: Record<string, unknown>) {
-  await ensureSchemaOnce();
   const numId = typeof id === "string" ? parseInt(id, 10) : id;
   const entries = Object.entries(data).filter(([k]) => k !== "id");
   const setClauses = entries.map(([k]) => {
@@ -204,7 +109,6 @@ export async function updateById(table: string, id: string | number, data: Recor
 }
 
 export async function deleteById(table: string, id: string | number) {
-  await ensureSchemaOnce();
   const numId = typeof id === "string" ? parseInt(id, 10) : id;
   await getClient().execute({
     sql: `DELETE FROM ${table} WHERE id = ?`,
@@ -213,7 +117,6 @@ export async function deleteById(table: string, id: string | number) {
 }
 
 export async function deleteAll(table: string, filter?: Record<string, unknown>) {
-  await ensureSchemaOnce();
   if (filter && Object.keys(filter).length > 0) {
     const conditions: string[] = [];
     const args: InValue[] = [];
@@ -231,8 +134,89 @@ export async function deleteAll(table: string, filter?: Record<string, unknown>)
 }
 
 export async function insertMany(table: string, docs: Record<string, unknown>[]) {
-  await ensureSchemaOnce();
   for (const doc of docs) {
     await createOne(table, doc);
+  }
+}
+
+const SCHEMA_SQL = `
+CREATE TABLE IF NOT EXISTS teams (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  designation TEXT NOT NULL DEFAULT '',
+  bio TEXT NOT NULL DEFAULT '',
+  photo TEXT NOT NULL DEFAULT '',
+  "order" INTEGER NOT NULL DEFAULT 0,
+  socialLinks TEXT NOT NULL DEFAULT '{}',
+  createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS projects (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT NOT NULL UNIQUE,
+  title TEXT NOT NULL,
+  category TEXT NOT NULL DEFAULT '',
+  client TEXT NOT NULL DEFAULT '',
+  year TEXT NOT NULL DEFAULT '',
+  description TEXT NOT NULL DEFAULT '',
+  details TEXT NOT NULL DEFAULT '[]',
+  images TEXT NOT NULL DEFAULT '[]',
+  featured INTEGER NOT NULL DEFAULT 0,
+  createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS services (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  icon TEXT NOT NULL DEFAULT '',
+  features TEXT NOT NULL DEFAULT '[]',
+  "order" INTEGER NOT NULL DEFAULT 0,
+  createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS blogs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  content TEXT NOT NULL DEFAULT '',
+  excerpt TEXT NOT NULL DEFAULT '',
+  featuredImage TEXT NOT NULL DEFAULT '',
+  author TEXT NOT NULL DEFAULT '',
+  tags TEXT NOT NULL DEFAULT '[]',
+  category TEXT NOT NULL DEFAULT '',
+  views INTEGER NOT NULL DEFAULT 0,
+  createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS inquiries (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL DEFAULT '',
+  phone TEXT NOT NULL DEFAULT '',
+  service TEXT NOT NULL DEFAULT '',
+  message TEXT NOT NULL DEFAULT '',
+  "read" INTEGER NOT NULL DEFAULT 0,
+  createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS settings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  siteLogo TEXT NOT NULL DEFAULT '',
+  siteTitle TEXT NOT NULL DEFAULT '',
+  tagline TEXT NOT NULL DEFAULT '',
+  footerText TEXT NOT NULL DEFAULT '',
+  socialLinks TEXT NOT NULL DEFAULT '{}',
+  contactInfo TEXT NOT NULL DEFAULT '{}'
+);
+CREATE TABLE IF NOT EXISTS testimonials (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  clientName TEXT NOT NULL,
+  company TEXT NOT NULL DEFAULT '',
+  rating INTEGER NOT NULL DEFAULT 5,
+  review TEXT NOT NULL DEFAULT '',
+  photo TEXT NOT NULL DEFAULT '',
+  createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+);
+`;
+
+export async function initSchema() {
+  const stmts = SCHEMA_SQL.split(";").map(s => s.trim()).filter(Boolean);
+  for (const stmt of stmts) {
+    await getClient().execute(stmt);
   }
 }

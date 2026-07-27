@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteMany, createOne, findOne } from "@/lib/mongodb-api";
+import { deleteAll, createOne, findOne, initSchema } from "@/lib/db";
 import { teamPhotos } from "@/lib/team-photos";
 
 const teamMembers = [
@@ -39,7 +39,8 @@ const teamMembers = [
 
 export async function POST() {
   try {
-    await deleteMany("teams", {});
+    await initSchema();
+    await deleteAll("teams", {});
     for (const member of teamMembers) {
       await createOne("teams", member);
     }
@@ -55,6 +56,7 @@ export async function POST() {
 
 export async function GET() {
   try {
+    await initSchema();
     let seeded = 0;
     for (const member of teamMembers) {
       const exists = await findOne("teams", { name: member.name });

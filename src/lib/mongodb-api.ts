@@ -1,2 +1,1 @@
-export { findAll as findMany, findOne, findById, createOne, updateById, deleteById, deleteAll as deleteMany, insertMany } from "./db";
-export { ensureSchema } from "./db";
+export { findAll as findMany, findOne, findById, createOne, updateById, deleteById, deleteAll as deleteMany, insertMany, initSchema } from "./db";

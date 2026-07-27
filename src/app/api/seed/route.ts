@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteMany, createOne } from "@/lib/mongodb-api";
+import { deleteMany, createOne, initSchema } from "@/lib/mongodb-api";
 
 const allProjects = [
   {
@@ -217,6 +217,7 @@ export async function POST() {
 
 async function seed() {
   try {
+    await initSchema();
     await deleteMany("projects", {});
     await deleteMany("services", {});
 
