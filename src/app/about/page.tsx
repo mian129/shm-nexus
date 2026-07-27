@@ -5,10 +5,10 @@ import { Target, Eye, Heart } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const defaultTeam = [
-  { name: "Hamza Shahid", designation: "CEO & Founder", bio: "Passionate about digital innovation and helping businesses grow. With 5+ years of experience in web development and digital marketing.", photo: "" },
-  { name: "Ali Raza", designation: "Creative Director", bio: "The creative mind behind our stunning designs. Expert in graphic design, branding, and visual storytelling.", photo: "" },
-  { name: "Saad Ahmed", designation: "SEO Specialist", bio: "Data-driven SEO expert who has helped 100+ businesses rank on Google's first page. Analytics and strategy wizard.", photo: "" },
-  { name: "Bilal Khan", designation: "Marketing Head", bio: "Social media guru with a knack for creating viral campaigns. Expert in paid advertising and content strategy.", photo: "" },
+  { name: "Muhammad Muneeb", designation: "CEO & Founder, SEO Specialist", bio: "Visionary leader and SEO specialist with a passion for driving digital growth. Muhammad founded SHM Nexus with the mission to help businesses thrive online through data-driven strategies and innovative solutions.", photo: "" },
+  { name: "Hanan Mehmood", designation: "Co-Founder, HR & Lead Generation Expert", bio: "Strategic mind behind SHM Nexus's lead generation engine. Hanan specializes in identifying high-value opportunities and building systems that consistently deliver quality leads.", photo: "" },
+  { name: "Subhan Ali", designation: "Co-Founder, Web Developer & Python Expert", bio: "Full-stack developer and Python expert who brings ideas to life through clean, efficient code. Subhan architects and builds scalable web applications that power SHM Nexus's client projects.", photo: "" },
+  { name: "Hussnain Amir", designation: "Co-Founder, Digital Marketing Head & Creative Head", bio: "Creative strategist with an eye for compelling campaigns. Hussnain leads SHM Nexus's digital marketing efforts, blending data analytics with creative storytelling.", photo: "" },
 ];
 
 const values = [
